@@ -1,27 +1,24 @@
 import pandas as pd
+import streamlit as st
 
 # Load data
 data = pd.read_csv('dewpoint_data.csv', encoding='latin-1')
 data = data.dropna(axis=1, how='all')
-
-# Convert column ke float
 data["DEWPOINT °C @ 1 Bar"] = data["DEWPOINT °C @ 1 Bar"].astype(float)
 
-# Function converter
+st.title("TEST OK")
 
+# Input
+dp_input = st.number_input("Enter Dewpoint (°C):", value=-90.0)
 
-def dewpoint_converter(dp_input):
+# Button
+if st.button("Convert"):
     closest = data.iloc[(data["DEWPOINT °C @ 1 Bar"] -
                          dp_input).abs().argsort()[:1]]
-    return closest.iloc[0]
+    row = closest.iloc[0]
 
+    st.subheader("Result")
 
-# TEST dulu
-if __name__ == "__main__":
-    dp = float(input("Enter dewpoint: "))
-    result = dewpoint_converter(dp)
-
-    print("\n=== RESULT ===")
-    for col in result.index:
+    for col in row.index:
         if "Unnamed" not in col:
-            print(f"{col}: {result[col]}")
+            st.write(f"{col}: {row[col]}")
