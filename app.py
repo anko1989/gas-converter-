@@ -6,7 +6,7 @@ data = pd.read_csv('dewpoint_data.csv', encoding='latin-1')
 data = data.dropna(axis=1, how='all')
 data["DEWPOINT °C @ 1 Bar"] = data["DEWPOINT °C @ 1 Bar"].astype(float)
 
-st.title("TEST OK")
+st.title("Santong DP Converter")
 
 # Input
 dp_input = st.number_input("Enter Dewpoint (°C):", value=-90.0)
