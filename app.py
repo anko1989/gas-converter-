@@ -2,24 +2,12 @@ import streamlit as st
 import pandas as pd
 
 # ===== PAGE CONFIG (WAJIB paling atas) =====
-st.set_page_config(layout="centered")
-
-# ===== STYLE (center box) =====
-st.markdown("""
-    <style>
-        .main {
-            max-width: 700px;
-            margin: auto;
-        }
-    </style>
-""", unsafe_allow_html=True)
+st.set_page_config(layout="wide")
 
 # ===== LOAD DATA =====
 data = pd.read_csv('dewpoint_data.csv', encoding='latin-1')
 data = data.dropna(axis=1, how='all')
 data["DEWPOINT °C @ 1 Bar"] = data["DEWPOINT °C @ 1 Bar"].astype(float)
-
-# ===== FUNCTION =====
 
 
 def dewpoint_converter(dp_input):
@@ -28,27 +16,24 @@ def dewpoint_converter(dp_input):
     return closest.iloc[0]
 
 
-# ===== TITLE =====
-st.markdown("<h1 style='text-align: center;'>Santong DP Converter</h1>",
-            unsafe_allow_html=True)
+# ===== 2 COLUMN LAYOUT =====
+left, right = st.columns([1, 2])  # kiri kecil, kanan besar
 
-# ===== INPUT BOX =====
-st.markdown("### Enter Dewpoint (°C)")
-dp_input = st.number_input("", value=-90.0)
+# ===== LEFT SIDE =====
+with left:
+    st.title("Santong DP Converter")
+    st.markdown("### Enter Dewpoint (°C)")
 
-convert_btn = st.button("Convert")
+    dp_input = st.number_input("", value=-90.0)
+    convert_btn = st.button("Convert")
 
-# ===== RESULT =====
-if convert_btn:
-    result = dewpoint_converter(dp_input)
-
+# ===== RIGHT SIDE =====
+with right:
     st.markdown("## Result")
 
-    col1, col2 = st.columns(2)
+    if convert_btn:
+        result = dewpoint_converter(dp_input)
 
-    for i, col in enumerate(result.index):
-        if "Unnamed" not in col:
-            if i % 2 == 0:
-                col1.write(f"**{col}**: {result[col]}")
-            else:
-                col2.write(f"**{col}**: {result[col]}")
+        for col in result.index:
+            if "Unnamed" not in col:
+                st.write(f"**{col}**: {result[col]}")
