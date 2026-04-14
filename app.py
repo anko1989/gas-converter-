@@ -34,6 +34,13 @@ with right:
     if convert_btn:
         result = dewpoint_converter(dp_input)
 
-        for col in result.index:
+        colA, colB = st.columns(2)
+
+        for i, col in enumerate(result.index):
             if "Unnamed" not in col:
-                st.write(f"**{col}**: {result[col]}")
+                if i % 2 == 0:
+                    colA.write(f"**{col}**")
+                    colA.write(result[col])
+                else:
+                    colB.write(f"**{col}**")
+                    colB.write(result[col])
