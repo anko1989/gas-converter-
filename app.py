@@ -21,7 +21,7 @@ left, right = st.columns([1, 2])  # kiri kecil, kanan besar
 
 # ===== LEFT SIDE =====
 with left:
-    st.title("Santong DP Converter")
+    st.title("Santong DP Converter v1.1")
     st.markdown("### Enter Dewpoint (°C)")
 
     dp_input = st.number_input("", value=-90.0)
